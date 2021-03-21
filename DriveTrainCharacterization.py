@@ -18,7 +18,7 @@ import sklearn.metrics
 # derivative_n_steps    'distance' entre deux éléments d'une colonne, utilisée pour calculer leur difference: colone[n] - colonne[n-derivative_n_steps].
 # n_ticks               nombre total de tick pour une revolution complete (2*PI).
 # wheel_radius          rayon des roues en mètres.
-def load_log(filename, smooth_range = 50, derivative1_n_steps=2, derivative2_n_steps=2, n_ticks=2048, wheel_radius=0.0762):
+def load_log(filename, smooth_range = 50, derivative1_n_steps=2, derivative2_n_steps=2, n_ticks=2048, wheel_radius=0.08):
     print("[...] >>> LOAD:  %s"%(filename))
     # chargement et insertion des données contenues dans le CSV 'filename' dans un objet data frame ( une base de données pandas en quelquesorte)
     df = pd.read_csv(filename)
@@ -157,7 +157,7 @@ for file_name in sorted(os.listdir(relative_pathname)):
     if ((file_name[0] == '.')):
         continue
     #ouverture du fichier CSV:
-    df = load_log(relative_pathname + file_name,smooth_range, 100, 100, 2048*4,0.0762)
+    df = load_log(relative_pathname + file_name,smooth_range, 100, 100, 2048*4,0.08)
    #df["log_name"] = file_name
 
     print('-------------------------------------------------------------------------')
@@ -198,7 +198,7 @@ for file_name in sorted(os.listdir(relative_pathname)):
 
 # ------------------------------ PLOT::START ---------------------------------------------------------
 #    
- 
+
     #regression lines: Positions gauches et droites par rapport au temps
     plt.xlabel('secondes')
     plt.ylabel( '[m] [m/s] [m/s²] [volts]')
@@ -225,11 +225,12 @@ for file_name in sorted(os.listdir(relative_pathname)):
         plt.title("LEFT and RIGHT vs Time: " + file_name + " -- Theoretical %.2f V" % df["theoretical_voltage"][0]+"\n[ Ces données sont de mauvaise qualité et ne seront pas utilisées]")
         print("[ABORTED] >>> ERROR- qualité de données trop basse -- R2(s) trop faible(s) (< 95%%)")
         print('-------------------------------------------------------------------------')
-        plt.show()
+        # plt.show()
         continue
     else:
         plt.title("LEFT(vert) and RIGHT(bleu) vs Time: " + file_name + " -- Theoretical %.2f V" % df["theoretical_voltage"][0])
-        plt.show()
+        # plt.show()
+
 
 #
 # ------------------------------ PLOT::END ---------------------------------------------------------
@@ -522,12 +523,12 @@ print("Nombre de GearBox  %d" % (2))
 fichier.write('gearbox= 2 \n')
 #nombre de moteurs et specs de la premiere gearbox
 print("LEFT GEARBOX - : Nombre de Moteurs  %d" % (2))
-print("LEFT GEARBOX - : GearRatio:  %.7f Angular Velocity Scale Factor: %.7f" % (10.8,0.0762/10.8))
+print("LEFT GEARBOX - : GearRatio:  %.7f Angular Velocity Scale Factor: %.7f" % (10.8,0.08/10.8))
 print("LEFT GEARBOX + : max Velocity  %.7f m/s max Acceleration  %.7f m/s²" % (velocity_max['L1+'],accel_max['L1+']))
 print("LEFT GEARBOX - : max Velocity  %.7f m/s max Acceleration  %.7f m/s²" % (velocity_max['L1-'],accel_max['L1-']))
 fichier.write('motors= 2')
 fichier.write(' ratio= '+str(10.8))
-fichier.write(' wscale= '+str(0.0762/10.8))
+fichier.write(' wscale= '+str(0.08/10.8))
 fichier.write(' vmax+= '+str(velocity_max['L1+']))
 fichier.write(' amax+= '+str(accel_max['L1+']))
 fichier.write(' vmax-= '+str(velocity_max['L1-']))
@@ -554,12 +555,12 @@ for motor in ['L1', 'L2']:
     ###
     
 print("RIGHT GEARBOX - : Nombre de Moteurs  %d" % (2))
-print("RIGHT GEARBOX - : GearRatio:  %.7f Angular Velocity Scale Factor: %.7f" % (10.8,0.0762/10.8))
+print("RIGHT GEARBOX - : GearRatio:  %.7f Angular Velocity Scale Factor: %.7f" % (10.8,0.08/10.8))
 print("RIGHT GEARBOX + : max Velocity  %.7f m/s max Acceleration  %.7f m/s²" % (velocity_max['R1+'],accel_max['R1+']))
 print("RIGHT GEARBOX - : max Velocity  %.7f m/s max Acceleration  %.7f m/s²" % (velocity_max['R1-'],accel_max['R1-']))
 fichier.write('motors= 2')
 fichier.write(' ratio= '+str(10.8))
-fichier.write(' wscale= '+str(0.0762/10.8))
+fichier.write(' wscale= '+str(0.08/10.8))
 fichier.write(' vmax+= '+str(velocity_max['R1+']))
 fichier.write(' amax+= '+str(accel_max['R1+']))
 fichier.write(' vmax-= '+str(velocity_max['R1-']))
@@ -604,12 +605,12 @@ print("Nombre de GearBox  %d" % (2))
 fichier.write('gearbox= 2 \n')
 #nombre de moteurs et specs de la premiere gearbox
 print("LEFT GEARBOX - : Nombre de Moteurs  %d" % (2))
-print("LEFT GEARBOX - : GearRatio:  %.7f Angular Velocity Scale Factor: %.7f" % (10.8,0.0762/10.8))
+print("LEFT GEARBOX - : GearRatio:  %.7f Angular Velocity Scale Factor: %.7f" % (10.8,0.08/10.8))
 print("LEFT GEARBOX + : max Velocity  %.7f m/s max Acceleration  %.7f m/s²" % (velocity_max['L1+'],accel_max['L1+']))
 print("LEFT GEARBOX - : max Velocity  %.7f m/s max Acceleration  %.7f m/s²" % (velocity_max['L1-'],accel_max['L1-']))
 fichier.write('motors= 2')
 fichier.write(' ratio= '+str(10.8))
-fichier.write(' wscale= '+str(0.0762/10.8))
+fichier.write(' wscale= '+str(0.08/10.8))
 fichier.write(' vmax+= '+str(velocity_max['L1+']))
 fichier.write(' amax+= '+str(accel_max['L1+']))
 fichier.write(' vmax-= '+str(velocity_max['L1-']))
@@ -635,12 +636,12 @@ for motor in ['L1', 'L2']:
     fichier.write(' intercept-= '+str(linear_regression2D_vel[motor+'-'].intercept_)+'\n')
     ###
 print("RIGHT GEARBOX - : Nombre de Moteurs  %d" % (2))
-print("RIGHT GEARBOX - : GearRatio:  %.7f Angular Velocity Scale Factor: %.7f" % (10.8,0.0762/10.8))
+print("RIGHT GEARBOX - : GearRatio:  %.7f Angular Velocity Scale Factor: %.7f" % (10.8,0.08/10.8))
 print("RIGHT GEARBOX + : max Velocity  %.7f m/s max Acceleration  %.7f m/s²" % (velocity_max['R1+'],accel_max['R1+']))
 print("RIGHT GEARBOX - : max Velocity  %.7f m/s max Acceleration  %.7f m/s²" % (velocity_max['R1-'],accel_max['R1-']))    
 fichier.write('motors= 2')
 fichier.write(' ratio= '+str(10.8))
-fichier.write(' wscale= '+str(0.0762/10.8))
+fichier.write(' wscale= '+str(0.08/10.8))
 fichier.write(' vmax+= '+str(velocity_max['R1+']))
 fichier.write(' amax+= '+str(accel_max['R1+']))
 fichier.write(' vmax-= '+str(velocity_max['R1-']))
